@@ -114,39 +114,44 @@ async function enviarCalculo() {
     }
 }
 
-// Desenha o gráfico
+// Desenha o gráfico apenas se for Integral
 function desenharGrafico(funcao) {
+    const tipo = document.getElementById("tipo").value;
+    const areaGrafico = document.getElementById("grafico");
 
-    let x = [];
-    let y = [];
+    // Condicional: SÓ gera gráfico se o tipo selecionado for 'integral'
+    if (tipo === "integral") {
+        let x = [];
+        let y = [];
 
-    for (let i = -10; i <= 10; i += 0.2) {
+        for (let i = -10; i <= 10; i += 0.2) {
+            try {
+                let expressao = funcao.replaceAll("x", "(" + i + ")");
+                let valor = eval(expressao);
 
-        try {
-
-            let expressao = funcao.replaceAll("x", "(" + i + ")");
-            let valor = eval(expressao);
-
-            if (isFinite(valor)) {
-                x.push(i);
-                y.push(valor);
+                if (isFinite(valor)) {
+                    x.push(i);
+                    y.push(valor);
+                }
+            } catch (e) {
+                // ignora erros
             }
-
-        } catch (e) {
-            // ignora erros
         }
-    }
 
-    Plotly.newPlot("grafico", [{
-        x: x,
-        y: y,
-        mode: "lines",
-        type: "scatter"
-    }], {
-        title: "Gráfico da Função",
-        xaxis: { title: "x" },
-        yaxis: { title: "f(x)" }
-    });
+        Plotly.newPlot("grafico", [{
+            x: x,
+            y: y,
+            mode: "lines",
+            type: "scatter"
+        }], {
+            title: "Gráfico da Função (Resultado da Integral)",
+            xaxis: { title: "x" },
+            yaxis: { title: "f(x)" }
+        });
+    } else {
+        // Se for derivada ou limite, limpa o gráfico da tela
+        Plotly.purge("grafico");
+    }
 }
 
 // Limpa os campos
