@@ -11,6 +11,7 @@
         button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
         #resultado { margin-top: 20px; font-size: 1.2em; font-weight: bold; color: green; }
     </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 
@@ -35,47 +36,152 @@
         <input type="text" id="alvo" placeholder="Ex: 0 ou oo (para infinito)">
     </div>
 
+    <div style="display:flex; gap:10px; margin-top:10px;">
     <button onclick="enviarCalculo()">Calcular</button>
 
+    <button onclick="limparCampos()" style="background-color:#dc3545;">
+        Limpar
+    </button>
+</div>
+
     <div id="resultado"></div>
+    <hr>
 
+<h3>Gráfico da Função</h3>
+
+<div id="grafico" style="width:100%; height:450px;"></div>
+<hr>
+
+<h3>Histórico</h3>
+
+<button onclick="limparHistorico()" style="background-color:#6c757d; margin-bottom:10px;">
+    Limpar Histórico
+</button>
+
+<ul id="historico"></ul>
     <script>
-        // Mostra ou esconde o campo do limite
-        function toggleLimiteCamp() {
-            const tipo = document.getElementById('tipo').value;
-            const campoLimite = document.getElementById('campo-limite');
-            campoLimite.style.display = tipo === 'limite' ? 'block' : 'none';
+  // Mostra ou esconde o campo do limite
+function toggleLimiteCamp() {
+    const tipo = document.getElementById("tipo").value;
+    const campoLimite = document.getElementById("campo-limite");
+    campoLimite.style.display = tipo === "limite" ? "block" : "none";
+}
+
+// Envia o cálculo para o Flask
+async function enviarCalculo() {
+
+    const tipo = document.getElementById("tipo").value;
+    const funcao = document.getElementById("funcao").value;
+    const alvo = document.getElementById("alvo").value;
+    const divResultado = document.getElementById("resultado");
+
+    divResultado.innerText = "Calculando...";
+
+    try {
+
+        const resposta = await fetch("http://127.0.0.1:5000/calcular", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ tipo, funcao, alvo })
+        });
+
+        const dados = await resposta.json();
+
+        if (dados.erro) {
+
+            divResultado.style.color = "red";
+            divResultado.innerText = dados.erro;
+
+        } else {
+
+            divResultado.style.color = "green";
+            divResultado.innerText = `Resultado: ${dados.resultado}`;
+
+            // Adiciona ao histórico
+            adicionarHistorico(tipo, funcao, dados.resultado);
+
+            // Desenha o gráfico
+            desenharGrafico(dados.resultado.replace(" + C", ""));
         }
 
-        async function enviarCalculo() {
-            const tipo = document.getElementById('tipo').value;
-            const funcao = document.getElementById('funcao').value;
-            const alvo = document.getElementById('alvo').value;
-            const divResultado = document.getElementById('resultado');
+    } catch (erro) {
 
-            divResultado.innerText = "Calculando...";
+        divResultado.style.color = "red";
+        divResultado.innerText = "Erro ao conectar com o servidor.";
 
-            try {
-                const resposta = await fetch('http://127.0.0.1:5000/calcular', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tipo, funcao, alvo })
-                });
+    }
+}
 
-                const dados = await resposta.json();
+// Desenha o gráfico
+function desenharGrafico(funcao) {
 
-                if (dados.erro) {
-                    divResultado.style.color = 'red';
-                    divResultado.innerText = dados.erro;
-                } else {
-                    divResultado.style.color = 'green';
-                    divResultado.innerText = `Resultado: ${dados.resultado}`;
-                }
-            } catch (erro) {
-                divResultado.style.color = 'red';
-                divResultado.innerText = "Erro ao conectar com o servidor.";
+    let x = [];
+    let y = [];
+
+    for (let i = -10; i <= 10; i += 0.2) {
+
+        try {
+
+            let expressao = funcao.replaceAll("x", "(" + i + ")");
+            let valor = eval(expressao);
+
+            if (isFinite(valor)) {
+                x.push(i);
+                y.push(valor);
             }
+
+        } catch (e) {
+            // ignora erros
         }
+    }
+
+    Plotly.newPlot("grafico", [{
+        x: x,
+        y: y,
+        mode: "lines",
+        type: "scatter"
+    }], {
+        title: "Gráfico da Função",
+        xaxis: { title: "x" },
+        yaxis: { title: "f(x)" }
+    });
+}
+
+// Limpa os campos
+function limparCampos() {
+
+    document.getElementById("funcao").value = "";
+    document.getElementById("alvo").value = "";
+    document.getElementById("resultado").innerText = "";
+
+    Plotly.purge("grafico");
+
+    document.getElementById("funcao").focus();
+}
+
+// Adiciona um cálculo ao histórico
+function adicionarHistorico(tipo, funcao, resultado) {
+
+    const historico = document.getElementById("historico");
+
+    const item = document.createElement("li");
+
+    item.innerHTML =
+        "<strong>" + tipo.toUpperCase() + "</strong><br>" +
+        "Função: " + funcao + "<br>" +
+        "Resultado: " + resultado;
+
+    historico.prepend(item);
+}
+
+// Limpa todo o histórico
+function limparHistorico() {
+
+    document.getElementById("historico").innerHTML = "";
+
+}
     </script>
 </body>
 </html>
