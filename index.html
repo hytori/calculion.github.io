@@ -1,154 +1,159 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Calculadora de Cálculo</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; padding: 20px; }
-        .campo { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, button { width: 100%; padding: 8px; box-sizing: border-box; }
-        button { background-color: #8e8f8fee; color: white; border: none; cursor: pointer; }
-        #resultado { margin-top: 20px; font-size: 1.2em; font-weight: bold; color: green; }
-
-        /* Estilos para a legenda de sintaxe */
-        details {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-            color: #007BFF;
-        }
-        .tabela-legenda {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-        .tabela-legenda th, .tabela-legenda td {
-            border: 1px solid #ddd;
-            padding: 6px;
-            text-align: left;
-        }
-        .tabela-legenda th {
-            background-color: #e9ecef;
-        }
-        code {
-            background-color: #e8e8e8;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: Consolas, monospace;
-        }
-
-        /* Layout para alinhar os limites de integração lado a lado */
-        .flex-intervalo {
-            display: flex;
-            gap: 10px;
-        }
-        .flex-intervalo div {
-            flex: 1;
-        }
-    </style>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculion</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="icon" type="image/png" href="./Assets/Logo_icon.ico" />
+  </head>
+  <body>
+    <div class="Header">
+      <img class="logo" src="./Assets/Logo.png" alt="logo" draggable="false" />
+      <img src="./Assets/Logo_text.png" alt="Calculion" draggable="false" />
+    </div>
 
-    <h2>Calculadora Cálculo 1</h2>
-
-    <details>
-        <summary>Veja como digitar as funções (Guia de Sintaxe)</summary>
-        <table class="tabela-legenda">
-            <thead>
-                <tr>
-                    <th>Operação</th>
-                    <th>Como digitar</th>
-                    <th>Exemplo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Multiplicação</td><td>Sempre use <code>*</code></td><td><code>3*x</code></td></tr>
-                <tr><td>Potência</td><td>Sempre use <code>**</code></td><td><code>x**2</code></td></tr>
-                <tr><td>Raiz Quadrada</td><td>Sempre use <code>sqrt(x)</code> ou <code>raiz(x)</code></td><td><code>sqrt(x**2 + 1)</code></td></tr>
-                <tr><td>Exponencial</td><td><code>exp(x)</code></td><td><code>exp(x) + 2</code></td></tr>
-                <tr><td>Logaritmo</td><td><code>ln(x)</code></td><td><code>ln(x)</code></td></tr>
-                <tr><td>Trigonometria</td><td><code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code></td><td><code>sin(x)</code></td></tr>
-                <tr><td>Sec / Cosc / Cotg</td><td><code>sec(x)</code>, <code>cosec(x)</code>, <code>cotg(x)</code></td><td><code>cotg(x)</code></td></tr>
-                <tr><td>Arcos (Inversas)</td><td><code>arcsen(x)</code>, <code>arccos(x)</code>, <code>arctg(x)</code></td><td><code>arctg(x)</code></td></tr>
-                <tr><td>Limite p/ Infinito</td><td>No campo do alvo, digite <code>oo</code></td><td><code>oo</code></td></tr>
-            </tbody>
-        </table>
+    <details class="syntax-guide">
+      <summary>Veja como digitar as funções (Guia de Sintaxe)</summary>
+      <table class="tabela-legenda">
+        <thead>
+          <tr>
+            <th>Operação</th>
+            <th>Como digitar</th>
+            <th>Exemplo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Multiplicação</td>
+            <td>Sempre use <code>*</code></td>
+            <td><code>3*x</code></td>
+          </tr>
+          <tr>
+            <td>Potência</td>
+            <td>Sempre use <code>**</code></td>
+            <td><code>x**2</code></td>
+          </tr>
+          <tr>
+            <td>Raiz Quadrada</td>
+            <td>Sempre use <code>sqrt(x)</code> ou <code>raiz(x)</code></td>
+            <td><code>sqrt(x**2 + 1)</code></td>
+          </tr>
+          <tr>
+            <td>Exponencial</td>
+            <td><code>exp(x)</code></td>
+            <td><code>exp(x) + 2</code></td>
+          </tr>
+          <tr>
+            <td>Logaritmo</td>
+            <td><code>ln(x)</code></td>
+            <td><code>ln(x)</code></td>
+          </tr>
+          <tr>
+            <td>Trigonometria</td>
+            <td>
+              <code>sin(x)</code>, <code>cos(x)</code>, <code>tan(x)</code>
+            </td>
+            <td><code>sin(x)</code></td>
+          </tr>
+          <tr>
+            <td>Sec / Cosc / Cotg</td>
+            <td>
+              <code>sec(x)</code>, <code>cosec(x)</code>, <code>cotg(x)</code>
+            </td>
+            <td><code>cotg(x)</code></td>
+          </tr>
+          <tr>
+            <td>Arcos (Inversas)</td>
+            <td>
+              <code>arcsen(x)</code>, <code>arccos(x)</code>,
+              <code>arctg(x)</code>
+            </td>
+            <td><code>arctg(x)</code></td>
+          </tr>
+          <tr>
+            <td>Limite p/ Infinito</td>
+            <td>No campo do alvo, digite <code>oo</code></td>
+            <td><code>oo</code></td>
+          </tr>
+        </tbody>
+      </table>
     </details>
 
     <div class="campo">
-        <label for="tipo">Escolha a operação:</label>
-        <select id="tipo" onchange="gerenciarCamposDinamicos()">
-            <option value="derivada">Derivada</option>
-            <option value="integral">Integral</option>
-            <option value="limite">Limite</option>
-        </select>
+      <label class="button-text" for="tipo">Escolha a operação:</label>
+      <select id="tipo" onchange="gerenciarCamposDinamicos()">
+        <option value="derivada">Derivada</option>
+        <option value="integral">Integral</option>
+        <option value="limite">Limite</option>
+      </select>
     </div>
 
     <div class="campo">
-        <label for="funcao">Digite a função:</label>
-        <input type="text" id="funcao" placeholder="Ex: x**2 + 3*x">
+      <label class="button-text" for="funcao">Digite a função:</label>
+      <input
+        class="ex-text"
+        type="text"
+        id="funcao"
+        placeholder="Ex: x**2 + 3*x"
+      />
     </div>
 
-    <div class="campo" id="campo-limite" style="display: none;">
-        <label for="alvo">x tende a quanto?</label>
-        <input type="text" id="alvo" placeholder="Ex: 0 ou oo (para infinito)">
+    <div class="campo" id="campo-limite" style="display: none">
+      <label class="button-text" for="alvo">x tende a quanto?</label>
+      <input type="text" id="alvo" placeholder="Ex: 0 ou oo (para infinito)" />
     </div>
 
-    <div class="campo" id="campo-intervalo" style="display: none;">
-        <label>Definir limites de integração (Opcional)</label>
-        <div class="flex-intervalo">
-            <div>
-                <input type="text" id="limite-inferior" placeholder="De (ex: 0)">
-            </div>
-            <div>
-                <input type="text" id="limite-superior" placeholder="Até (ex: 2)">
-            </div>
+    <div class="campo" id="campo-intervalo" style="display: none">
+      <label class="button-text"
+        >Definir limites de integração (Opcional)</label
+      >
+      <div class="flex-intervalo">
+        <div>
+          <input type="text" id="limite-inferior" placeholder="De (ex: 0)" />
         </div>
+        <div>
+          <input type="text" id="limite-superior" placeholder="Até (ex: 2)" />
+        </div>
+      </div>
     </div>
 
-    <div style="display:flex; gap:10px; margin-top:10px;">
-        <button onclick="enviarCalculo()">Calcular</button>
-        <button onclick="limparCampos()" style="background-color:#dc3545;">Limpar</button>
+    <div class="buttons">
+      <button class="buttons-calcular" onclick="enviarCalculo()">
+        Calcular
+      </button>
+      <button class="buttons-limpar" onclick="limparCampos()">Limpar</button>
     </div>
 
-    <div id="resultado"></div>
-    <hr>
+    <div class="resultado" id="resultado"></div>
+    <hr />
 
     <h3>Gráfico da Função</h3>
-    <div id="grafico" style="width:100%; height:450px;"></div>
-    <hr>
+    <div id="grafico" style="width: 100%; height: 450px"></div>
+    <hr />
 
     <h3>Histórico</h3>
-    <button onclick="limparHistorico()" style="background-color:#6c757d; margin-bottom:10px;">
-        Limpar Histórico
+    <button class="buttons-calcular" onclick="limparHistorico()">
+      Limpar Histórico
     </button>
-    <ul id="historico"></ul>
+    <ul class="historico" id="historico"></ul>
 
     <script>
-    // Gerencia a exibição dos campos na tela
-    function gerenciarCamposDinamicos() {
+      // Gerencia a exibição dos campos na tela
+      function gerenciarCamposDinamicos() {
         const tipo = document.getElementById("tipo").value;
-        
+
         // Controla o campo do limite
         const campoLimite = document.getElementById("campo-limite");
         campoLimite.style.display = tipo === "limite" ? "block" : "none";
-        
+
         // Controla o campo dos intervalos da integral
         const campoIntervalo = document.getElementById("campo-intervalo");
         campoIntervalo.style.display = tipo === "integral" ? "block" : "none";
-    }
+      }
 
-    // Envia o cálculo para o Flask
-    async function enviarCalculo() {
+      // Envia o cálculo para o Flask
+      async function enviarCalculo() {
         const tipo = document.getElementById("tipo").value;
         const funcao = document.getElementById("funcao").value;
         const alvo = document.getElementById("alvo").value;
@@ -159,83 +164,100 @@
         divResultado.innerText = "Calculando...";
 
         try {
-            const resposta = await fetch("http://127.0.0.1:5000/calcular", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ tipo, funcao, alvo, lim_inf: limInf, lim_sup: limSup })
-            });
+          const resposta = await fetch("http://127.0.0.1:5000/calcular", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              tipo,
+              funcao,
+              alvo,
+              lim_inf: limInf,
+              lim_sup: limSup,
+            }),
+          });
 
-            const dados = await resposta.json();
+          const dados = await resposta.json();
 
-            if (dados.erro) {
-                divResultado.style.color = "red";
-                divResultado.innerText = dados.erro;
-                Plotly.purge("grafico");
-            } else {
-                divResultado.style.color = "green";
-                divResultado.innerText = `Resultado: ${dados.resultado}`;
-
-                adicionarHistorico(tipo, funcao, dados.resultado);
-                desenharGrafico(funcao);
-            }
-
-        } catch (erro) {
+          if (dados.erro) {
             divResultado.style.color = "red";
-            divResultado.innerText = "Erro ao conectar com o servidor.";
+            divResultado.innerText = dados.erro;
             Plotly.purge("grafico");
-        }
-    }
+          } else {
+            divResultado.style.color = "var(--secundary-color)";
+            divResultado.innerText = `Resultado: ${dados.resultado}`;
 
-    // Desenha o gráfico apenas se for Integral
-    function desenharGrafico(funcao) {
+            adicionarHistorico(tipo, funcao, dados.resultado);
+            desenharGrafico(funcao);
+          }
+        } catch (erro) {
+          divResultado.style.color = "red";
+          divResultado.innerText = "Erro ao conectar com o servidor.";
+          Plotly.purge("grafico");
+        }
+      }
+
+      // Desenha o gráfico apenas se for Integral
+      function desenharGrafico(funcao) {
         const tipo = document.getElementById("tipo").value;
 
         if (tipo === "integral") {
-            let x = [];
-            let y = [];
+          let x = [];
+          let y = [];
 
-            let funcaoJS = funcao.toLowerCase();
-            funcaoJS = funcaoJS.replaceAll("log(", "Math.log(");
-            funcaoJS = funcaoJS.replaceAll("ln(", "Math.log(");
-            funcaoJS = funcaoJS.replaceAll("sin(", "Math.sin(");
-            funcaoJS = funcaoJS.replaceAll("cos(", "Math.cos(");
-            funcaoJS = funcaoJS.replaceAll("tan(", "Math.tan(");
-            funcaoJS = funcaoJS.replaceAll("sqrt(", "Math.sqrt(");
-            funcaoJS = funcaoJS.replaceAll("raiz(", "Math.sqrt(");
-            funcaoJS = funcaoJS.replaceAll("exp(", "Math.exp(");
+          let funcaoJS = funcao.toLowerCase();
+          funcaoJS = funcaoJS.replaceAll("log(", "Math.log(");
+          funcaoJS = funcaoJS.replaceAll("ln(", "Math.log(");
+          funcaoJS = funcaoJS.replaceAll("sin(", "Math.sin(");
+          funcaoJS = funcaoJS.replaceAll("cos(", "Math.cos(");
+          funcaoJS = funcaoJS.replaceAll("tan(", "Math.tan(");
+          funcaoJS = funcaoJS.replaceAll("sqrt(", "Math.sqrt(");
+          funcaoJS = funcaoJS.replaceAll("raiz(", "Math.sqrt(");
+          funcaoJS = funcaoJS.replaceAll("exp(", "Math.exp(");
 
-            let n_inf = parseFloat(document.getElementById("limite-inferior").value) || -10;
-            let n_sup = parseFloat(document.getElementById("limite-superior").value) || 10;
-            
-            let inicio = Math.min(n_inf, -10);
-            let fim = Math.max(n_sup, 10);
+          let n_inf =
+            parseFloat(document.getElementById("limite-inferior").value) || -10;
+          let n_sup =
+            parseFloat(document.getElementById("limite-superior").value) || 10;
 
-            for (let i = inicio; i <= fim; i += 0.1) {
-                try {
-                    let expressao = funcaoJS.replaceAll("x", "(" + i + ")");
-                    let valor = eval(expressao);
+          let inicio = Math.min(n_inf, -10);
+          let fim = Math.max(n_sup, 10);
 
-                    if (isFinite(valor) && !isNaN(valor)) {
-                        x.push(i);
-                        y.push(valor);
-                    }
-                } catch (e) {}
-            }
+          for (let i = inicio; i <= fim; i += 0.1) {
+            try {
+              let expressao = funcaoJS.replaceAll("x", "(" + i + ")");
+              let valor = eval(expressao);
 
-            Plotly.newPlot("grafico", [{
-                x: x, y: y, mode: "lines", type: "scatter"
-            }], {
-                title: "Gráfico da Função Original Integrada",
-                xaxis: { title: "x" }, yaxis: { title: "f(x)" }
-            });
+              if (isFinite(valor) && !isNaN(valor)) {
+                x.push(i);
+                y.push(valor);
+              }
+            } catch (e) {}
+          }
+
+          Plotly.newPlot(
+            "grafico",
+            [
+              {
+                x: x,
+                y: y,
+                mode: "lines",
+                type: "scatter",
+              },
+            ],
+            {
+              title: "Gráfico da Função Original Integrada",
+              xaxis: { title: "x" },
+              yaxis: { title: "f(x)" },
+            },
+          );
         } else {
-            Plotly.purge("grafico");
+          Plotly.purge("grafico");
         }
-    }
+      }
 
-    function limparCampos() {
+      function limparCampos() {
         document.getElementById("funcao").value = "";
         document.getElementById("alvo").value = "";
         document.getElementById("limite-inferior").value = "";
@@ -243,18 +265,24 @@
         document.getElementById("resultado").innerText = "";
         Plotly.purge("grafico");
         document.getElementById("funcao").focus();
-    }
+      }
 
-    function adicionarHistorico(tipo, funcao, resultado) {
+      function adicionarHistorico(tipo, funcao, resultado) {
         const historico = document.getElementById("historico");
         const item = document.createElement("li");
-        item.innerHTML = "<strong>" + tipo.toUpperCase() + "</strong><br>Função: " + funcao + "<br>Resultado: " + resultado;
+        item.innerHTML =
+          "<strong>" +
+          tipo.toUpperCase() +
+          "</strong><br>Função: " +
+          funcao +
+          "<br>Resultado: " +
+          resultado;
         historico.prepend(item);
-    }
+      }
 
-    function limparHistorico() {
+      function limparHistorico() {
         document.getElementById("historico").innerHTML = "";
-    }
+      }
     </script>
-</body>
+  </body>
 </html>
