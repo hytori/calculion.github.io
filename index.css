@@ -11,6 +11,7 @@ body {
   background-color: var(--primary-color);
   font-family: Arial, sans-serif;
   max-width: 500px;
+  width: 90%;
   margin: 10px auto;
   padding: 20px;
 }
@@ -33,6 +34,15 @@ h3 {
   justify-content: center;
   transform: scale(0.8);
   user-select: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .Header {
+    display: flex;
+    justify-content: center;
+    transform: scale(0.5);
+    user-select: none;
+  }
 }
 
 .campo {
@@ -171,8 +181,7 @@ code {
   color: var(--secundary-color);
 }
 
-.resultado{
-
+.resultado {
   text-align: center;
   justify-content: center;
   padding: 20px;
