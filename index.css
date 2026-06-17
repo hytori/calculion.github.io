@@ -7,12 +7,17 @@
   --green-color: #3c90e7;
   --red-color: #9c3a49;
 }
+* {
+  box-sizing: border-box;
+}
+
 body {
+  overflow-x: hidden;
   background-color: var(--primary-color);
   font-family: Arial, sans-serif;
   max-width: 500px;
-  width: 90%;
-  margin: 10px auto;
+  width: 100%;
+  margin: 0 auto;
   padding: 20px;
 }
 
